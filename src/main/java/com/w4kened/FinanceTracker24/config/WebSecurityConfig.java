@@ -11,17 +11,15 @@ import org.springframework.security.config.annotation.web.configurers.AbstractHt
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.savedrequest.HttpSessionRequestCache;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfig {
-    @Bean
-    public static PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
-
+    @Autowired
+    public SecurityBeanConfig passwordEncoder;
 
     @Autowired
     private UserDetailsServiceImpl userDetailsService;
@@ -38,6 +36,7 @@ public class WebSecurityConfig {
                 .requestMatchers(new AntPathRequestMatcher("/resources/**")).permitAll()
                 .requestMatchers("/login", "/registration").permitAll()
                 .requestMatchers("/home").authenticated()
+                .requestMatchers("/api/**").authenticated()
                 .and()
                 .formLogin(formLogin -> formLogin
                         .loginPage("/login")
@@ -62,6 +61,6 @@ public class WebSecurityConfig {
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
         auth
                 .userDetailsService(userDetailsService)
-                .passwordEncoder(passwordEncoder());
+                .passwordEncoder(passwordEncoder.bCryptPasswordEncoder());
     }
 }

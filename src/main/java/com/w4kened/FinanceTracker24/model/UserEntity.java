@@ -1,8 +1,11 @@
 package com.w4kened.FinanceTracker24.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.math.BigDecimal;
+import java.util.List;
 import java.util.Set;
 
 @Builder
@@ -21,12 +24,18 @@ public class UserEntity {
 
     private String password;
 
-    @Transient
-    private String passwordConfirm;
+    @Column(precision = 18, scale = 4)
+    private BigDecimal balance;
+
+    String currency;
 
     @ManyToMany
     @JoinTable(name = "users_roles_table",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<RoleEntity> roles;
+
+    @OneToMany(mappedBy = "userEntity")
+    @JsonBackReference
+    private List<TransactionEntity> transactionEntities;
 }

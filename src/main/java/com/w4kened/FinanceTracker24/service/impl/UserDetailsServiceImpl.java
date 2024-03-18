@@ -28,13 +28,11 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         UserEntity userEntity = userRepository.findByUsername(username);
         Set<GrantedAuthority> grantedAuthorities = new HashSet<>();
 
-        System.out.println("\nasdasdasdas "+
-                username);
-
         for (RoleEntity roleEntity : userEntity.getRoles()) {
             grantedAuthorities.add(new SimpleGrantedAuthority(roleEntity.getName()));
         }
 
-        return new org.springframework.security.core.userdetails.User(userEntity.getUsername(), userEntity.getPassword(), grantedAuthorities);
+        return new org.springframework.security.core.userdetails.User(userEntity.getUsername(),
+                userEntity.getPassword(), grantedAuthorities);
     }
 }

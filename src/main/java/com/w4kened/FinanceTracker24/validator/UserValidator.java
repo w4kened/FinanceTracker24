@@ -1,5 +1,6 @@
 package com.w4kened.FinanceTracker24.validator;
 
+import com.w4kened.FinanceTracker24.dto.UserDTO;
 import com.w4kened.FinanceTracker24.model.UserEntity;
 import com.w4kened.FinanceTracker24.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,22 +22,22 @@ public class UserValidator implements Validator {
 
     @Override
     public void validate(Object target, Errors errors) {
-        UserEntity userEntity = (UserEntity) target;
+        UserDTO userDto = (UserDTO) target;
 
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "username", "NotEmpty");
-        if (userEntity.getUsername().length() < 6 || userEntity.getUsername().length() > 32) {
+        if (userDto.getUsername().length() < 6 || userDto.getUsername().length() > 32) {
             errors.rejectValue("username", "Size.userForm.username");
         }
-        if (userService.findByUsername(userEntity.getUsername()) != null) {
+        if (userService.findByUsername(userDto.getUsername()) != null) {
             errors.rejectValue("username", "Duplicate.userForm.username");
         }
 
 
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "password", "NotEmpty");
-        if (userEntity.getPassword().length() < 8 || userEntity.getPassword().length() > 32) {
+        if (userDto.getPassword().length() < 8 || userDto.getPassword().length() > 32) {
             errors.rejectValue("password", "Size.userForm.password");
         }
-        if (!userEntity.getPasswordConfirm().equals(userEntity.getPassword())) {
+        if (!userDto.getPasswordConfirm().equals(userDto.getPassword())) {
             errors.rejectValue("passwordConfirm", "Diff.userForm.passwordConfirm");
         }
     }
