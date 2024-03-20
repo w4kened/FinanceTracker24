@@ -33,10 +33,6 @@ public class UserServiceImpl implements UserService {
         userRepository.save(newUser);
     }
 
-//    @Override
-//    public void save(UserEntity userEntity) {
-//        userRepository.save()
-//    }
 
     @Override
     public UserEntity findByUsername(String username) {

@@ -4,13 +4,13 @@
 
 <web-app>
   <display-name>Archetype Created Web Application</display-name>
-  <servlet>
-    <servlet-name>CurrencyServlet</servlet-name>
-    <servlet-class>com.example.CurrencyServlet</servlet-class>
-  </servlet>
-  <servlet-mapping>
-    <servlet-name>CurrencyServlet</servlet-name>
-    <url-pattern>/CurrencyServlet</url-pattern>
-  </servlet-mapping>
+<!--  <servlet>-->
+<!--    <servlet-name>CurrencyServlet</servlet-name>-->
+<!--    <servlet-class>com.example.CurrencyServlet</servlet-class>-->
+<!--  </servlet>-->
+<!--  <servlet-mapping>-->
+<!--    <servlet-name>CurrencyServlet</servlet-name>-->
+<!--    <url-pattern>/CurrencyServlet</url-pattern>-->
+<!--  </servlet-mapping>-->
 
 </web-app>
