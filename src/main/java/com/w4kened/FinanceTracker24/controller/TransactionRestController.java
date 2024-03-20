@@ -33,7 +33,8 @@ public class TransactionRestController {
 
     @RequestMapping(value = "/api/getTransactionHistory", method = RequestMethod.GET)
     public List<TransactionEntity> getTransactionHistory() {
-        return transactionRepository.findAll();
+        String email = SecurityUtil.getSessionUser();
+        UserEntity userEntity = userService.findByUsername(email);
+        return transactionRepository.findAllTransactionsAscOrderByUserId(userEntity.getId());
     }
-
 }

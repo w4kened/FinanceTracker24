@@ -24,10 +24,10 @@ public class TransactionService {
     @Autowired
     UserRepository userRepository;
 
-    public void depositMoneyForUser(UserEntity userEntity, BigDecimal amount)  {
+    public void depositMoneyForUser(UserEntity userEntity, BigDecimal amount, String nameCurrency)  {
         TransactionEntity newTransaction = TransactionEntity.builder()
                 .amount(amount)
-                .currency("PLN")
+                .currency(nameCurrency)
                 .transactionCategory(TransactionCategory.DEPOSIT)
                 .userEntity(userEntity)
                 .createdDate(getCurrentTimeStamp())
@@ -42,10 +42,10 @@ public class TransactionService {
         userRepository.save(userEntity);
     }
 
-    public void withdrawMoneyForUser(UserEntity userEntity, BigDecimal amount) {
+    public void withdrawMoneyForUser(UserEntity userEntity, BigDecimal amount, String nameCurrency) {
         TransactionEntity newTransaction = TransactionEntity.builder()
                 .amount(amount)
-                .currency("PLN")
+                .currency(nameCurrency)
                 .transactionCategory(TransactionCategory.WITHDRAW)
                 .userEntity(userEntity)
                 .createdDate(getCurrentTimeStamp())
@@ -60,6 +60,20 @@ public class TransactionService {
         userRepository.save(userEntity);
     }
 
+    public void exchangeMoneyForUser(UserEntity userEntity, BigDecimal amount, String newCurrencyName) {
+        TransactionEntity newTransaction = TransactionEntity.builder()
+                .amount(amount)
+                .currency(newCurrencyName)
+                .transactionCategory(TransactionCategory.EXCHANGE)
+                .userEntity(userEntity)
+                .createdDate(getCurrentTimeStamp())
+                .build();
+        transactionRepository.save(newTransaction);
+
+        userEntity.setBalance(amount);
+        userEntity.setCurrency(newCurrencyName);
+        userRepository.save(userEntity);
+    }
 
     public static LocalDateTime getCurrentTimeStamp() {
         LocalDateTime now = LocalDateTime.now();

@@ -90,6 +90,12 @@
                 gap: 1rem;
                 padding: 1rem;
             }
+            #exchangeForm {
+                display: flex;
+                margin: 1em;
+                gap: 1em;
+                width: 100%;
+            }
         </style>
     </head>
     <body  class="background-pattern">
@@ -108,14 +114,17 @@
                     <p class="fs-6" style="flex:1;margin:auto;"> ${user.currency}</p>
                 </div>
                 <div class="subsec2">
-                    <p class="fs-6" style="flex:1;margin:auto;">Spendings:</p>
+                    <%-- <p class="fs-6" style="flex:1;margin:auto;">Spendings:</p> --%>
+                    <div id="chartContainer" style="height: 200px; width: 100%;"></div>
                 </div>
 
             </div>
-            <div class="sec2"><p class="fs-6" style="flex:1;margin:auto;">Revenue:</p></div>
+            <div class="sec2"><p class="fs-6" style="flex:1;margin:auto;">
+                <div id="chartContainer2" style="height: 200px; width: 100%;"></div>
+            </p></div>
             <div class="sec3">
                 <table id="transactionTable" class="table table-striped table-bordered">
-                    
+      
                 </table>
             </div>
             <div class="sec4" >
@@ -160,7 +169,7 @@
                         <h5 class="modal-title" id="depositModalLabel">Deposit</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
-                    <form id="currencyForm" onsubmit="return validateInput('Deposit');" name="currencyForm" action="${contextPath}/depositMoney" method="POST">
+                    <form onsubmit="return validateInput('Deposit');" action="${contextPath}/depositMoney" method="POST">
                     <div class="modal-body">
                         <!-- Modal content goes here -->
                         <div class="input-group mb-3">
@@ -191,7 +200,7 @@
                         <h5 class="modal-title" id="withdrawModalLabel">Withdraw</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
-                    <form id="currencyForm" onsubmit="return validateInput('Withdraw');" action="${contextPath}/withdrawMoney" method="POST">
+                    <form  onsubmit="return validateInput('Withdraw');" action="${contextPath}/withdrawMoney" method="POST">
                     <div class="modal-body">
                         <!-- Modal content goes here -->
                         <div class="input-group mb-3">
@@ -250,7 +259,6 @@
                     </div>
 
 
-                    <%-- <form id="currencyForm" action="${contextPath}/exchangeMoney" method="POST"> --%>
                     <div class="modal-body">
                         <!-- Modal content goes here -->
                         <div class="input-group mb-3">
@@ -269,28 +277,31 @@
                         </div>
 
 
-                        <button class="btn btn-primary" onclick="fetchCurrencyData()">Fetch Currency Data</button>
+                        <button class="btn btn-primary" style="margin-left:30%;" 
+                            onclick="fetchCurrencyData()">Fetch Currency Data</button>
+                        <form id="exchangeForm" onsubmit="return validateInput('Exchange');" action="${contextPath}/exchangeMoney" method="POST">
+                            <p class="fs-6" style="flex:1;margin:auto;">Exchange currency to </p>
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <label for="currencySelect" class="form-label">Select Currency:</label>
+                                    <select class="form-select" name="currencySelect" id="currencySelect" aria-label="Select Currency">
+                                        <!-- Options will be added dynamically by JavaScript -->
+                                    </select>
+                                </div>
+                                            <div class="col-md-4">
+                                    <label for="convertedValue" class="form-label">Converted Value:</label>
+                                    <input type="text" class="form-control" name="amount" id="convertedValue" readonly>
+                                </div>
+                            </div>
 
-                        <p class="fs-6" style="flex:1;margin:auto;">Exchange currency to </p>
-                        <div class="row">
-                            <div class="col-md-4">
-                                <label for="currencySelect" class="form-label">Select Currency:</label>
-                                <select class="form-select" id="currencySelect" aria-label="Select Currency">
-                                    <!-- Options will be added dynamically by JavaScript -->
-                                </select>
-                            </div>
-                                        <div class="col-md-4">
-                                <label for="convertedValue" class="form-label">Converted Value:</label>
-                                <input type="text" class="form-control" id="convertedValue" readonly>
-                            </div>
-                        </div>
                     </div>
-                    <div class="modal-footer">
-                        <button type="submit" class="btn btn-primary">Convert</button>
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        <!-- Additional modal action buttons can go here -->
-                    </div>
-                    <%-- </form> --%>
+                            <div class="modal-footer">
+                                <button type="submit" class="btn btn-primary">Exchange</button>
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                <!-- Additional modal action buttons can go here -->
+                            </div>
+                        </form>
+
                 </div>
             </div>
         </div>
@@ -302,40 +313,59 @@
         <%-- <script src="${contextPath}/resources/js/bootstrap.min.js"></script> --%>
         <%-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script> --%>
         <%-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script> --%>
-            <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+        <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
         <script type="text/javascript">
             function fetchTransactionHistory() {
                 fetch('/api/getTransactionHistory')
                     .then(response => response.json())
-                    .then(data => displayTransactionHistory(data))
+                    .then(data => {
+                        displayTransactionHistory(data) ;
+                        displaySpendingsChart(filterLastMonthTransactionsSpendings(data));
+                        displayRevenueChart(filterLastMonthTransactionsRevenue(data));
+                    })
                     .catch(error => console.error('Error fetching transaction history:', error));
             }
+            window.onload = fetchTransactionHistory;        
             function fetchCurrencyData() {
                 fetch('/api/getCurrency')
                     .then(response => response.json())
                     .then(data => displayCurrencyData(data))
                     .catch(error => console.error('Error fetching currency data:', error));
             }
-            fetchTransactionHistory();
-            <%-- fetchCurrencyData(); --%>
+            function filterLastMonthTransactionsSpendings(transactionData) {
+                return transactionData.filter(transaction => {
+                    return transaction.transactionCategory === 'WITHDRAW';
+                });
+            }
+            function filterLastMonthTransactionsRevenue(transactionData) {
+                return transactionData.filter(transaction => {
+                    return transaction.transactionCategory === 'DEPOSIT'
+                });
+            }
 
 
-            // Function to display transaction history on the page
+
+            let globalData;
             function displayTransactionHistory(transactionData) {
                 var transactionTable = document.getElementById('transactionTable');
-                transactionTable.innerHTML = ''; // Clear previous data
+                transactionTable.innerHTML = ''; 
 
-                // Create table headers
                 var headers = '<thead><tr><th>Transaction category</th>'+
                                         '<th>Amount</th><th>Date</th>'+
                                 '</tr></thead>';
                 transactionTable.innerHTML += headers;
 
-                // Create table body
-                var tbody = '<tbody>';
+                if (transactionData.length === 0) {
+                    transactionTable.innerHTML += '<tr><p class="fs-6" style="margin:1em;text-align:right;">'+
+                                        'No Transactions Performed</p></tr>';
+                    return;
+                }
 
-                transactionData.reverse();
+                globalData = transactionData;
+
+                var tbody = '<tbody>';
+                <%-- transactionData.reverse(); --%>
                 transactionData.forEach(transaction => {
                     var rowColor = '';
                     var sign = '';
@@ -346,26 +376,111 @@
                     } else if (transaction.transactionCategory === "DEPOSIT") {
                         rowColor = 'table-success'; // Green color for DEPOSIT
                         sign = '+'
+                    } else if (transaction.transactionCategory === "EXCHANGE") {
+                        sign = '&#128177;'
                     }
-                        var row = 
-                            '<tr class="' + rowColor + '">' +
-                                '<td>' + transaction.transactionCategory    + '</td>' +
-                                '<td>' + sign + transaction.amount          + '</td>' +
-                                '<td>' + transaction.createdDate            + '</td>' +
-                            '</tr>';
+                    var row = 
+                        '<tr class="' + rowColor + '">' +
+                            '<td>' + transaction.transactionCategory    + '</td>' +
+                            '<td>' + sign + transaction.amount+
+                                                ' '+transaction.currency+ '</td>' +
+                            '<td>' + transaction.createdDate            + '</td>' +
+                        '</tr>';
 
                     tbody += row;
                 });
                 tbody += '</tbody>';
                 transactionTable.innerHTML += tbody;
-
             }
 
 
+
+
+            function displaySpendingsChart(transactionData) {
+                const withdrawalAmounts = {};
+
+                transactionData.forEach(transaction => {
+                    const date = new Date(transaction.createdDate).toLocaleDateString();
+                    withdrawalAmounts[date] = (withdrawalAmounts[date] || 0) + transaction.amount;
+                });
+
+                const dataPoints = [];
+                for (const date in withdrawalAmounts) {
+                    dataPoints.push({ x: new Date(date), y: withdrawalAmounts[date] });
+                }
+
+                const chart = new CanvasJS.Chart("chartContainer", {
+                    theme: "light2",
+                    backgroundColor: "#eee",
+                    title: {
+                        text: "Spendings"
+                    },
+                    axisX: {
+                        title: "Date",
+                        valueFormatString: "D", // Adjust the format to show day and month
+                        interval: 1,
+                        intervalType: "day" // Set interval to show one label per day
+                        
+                    },
+                    axisY: {
+                        title: "Amount"
+                    },
+                    data: [{
+                        type: "spline", // Use 'spline' for a smooth curve line
+                        lineDashType: "solid", // Set lineDashType to 'solid' for a solid line
+                        dataPoints: dataPoints,
+                        color: "red"
+                    }]
+                });
+
+                chart.render();
+            }
+
+            function displayRevenueChart(transactionData) {
+                const revenueAmounts = {};
+
+
+                transactionData.forEach(transaction => {
+                    const date = new Date(transaction.createdDate).toLocaleDateString();
+                    revenueAmounts[date] = (revenueAmounts[date] || 0) + transaction.amount;
+                });
+
+                const dataPoints = [];
+                for (const date in revenueAmounts) {
+                    dataPoints.push({ x: new Date(date), y: revenueAmounts[date] });
+                }
+
+                const chart = new CanvasJS.Chart("chartContainer2", {
+                    theme: "light2",
+                    backgroundColor: "#eee",
+                    title: {
+                        text: "Revenue"
+                    },
+                    axisX: {
+                        title: "Date",
+                        valueFormatString: "D", // Adjust the format to show day and month
+                        interval: 1,
+                        intervalType: "day" // Set interval to show one label per day
+                        
+                    },
+                    axisY: {
+                        title: "Amount"
+                    },
+                    data: [{
+                        type: "spline", // Use 'spline' for a smooth curve line
+                        lineDashType: "solid", // Set lineDashType to 'solid' for a solid line
+                        dataPoints: dataPoints,
+                        color: "green"
+                    }]
+                });
+
+                chart.render();
+            }
+
+
+
             function displayCurrencyData(data) {
-                console.log(data);
-                console.log('>>');
-                
+
                 var tableBody = document.getElementById('currencyTableBody');
 
                 // Clear previous data
@@ -379,7 +494,7 @@
                         var baseCell = document.createElement("td");
                         var currencyCell = document.createElement('td');
                         var rateCell = document.createElement('td');
-                        globalData = data;
+                        
                         // Set currency and rate
 
                         baseCell.textContent = '1 ${user.currency}';
@@ -397,49 +512,45 @@
                 }
                 populateCurrencyOptions(data);
             }
-            <%-- fetchTransactionHistory(); --%>
 
-        // Function to populate currency options in select element
-        function populateCurrencyOptions(data) {
-            var selectElement = document.getElementById('currencySelect');
+            // Function to populate currency options in select element
+            function populateCurrencyOptions(data) {
+                var selectElement = document.getElementById('currencySelect');
 
-            // Clear previous options
-            selectElement.innerHTML = '';
+                // Clear previous options
+                selectElement.innerHTML = '';
 
 
-            // Iterate over the object and create options
-            for (var currency in data) {
-                if (data.hasOwnProperty(currency)) {
-                    var option = document.createElement('option');
-                    option.value = currency;
-                    option.textContent = currency;
-                    selectElement.appendChild(option);
+                // Iterate over the object and create options
+                for (var currency in data) {
+                    if (data.hasOwnProperty(currency)) {
+                        var option = document.createElement('option');
+                        option.value = currency;
+                        option.textContent = currency;
+                        selectElement.appendChild(option);
+                    }
                 }
+
+
+                // Add event listener to handle currency selection
+                selectElement.addEventListener('change',  function(event) {
+                    handleCurrencySelection(event, data)
+                });
             }
 
+            // Function to handle currency selection
+            function handleCurrencySelection(event, currencyData) {
+                var selectedCurrency = event.target.value;
+                var inputValue = parseFloat(`${user.balance}`);
+                var convertedValueInput = document.getElementById('convertedValue');
+                console.log(selectedCurrency);
 
-            // Add event listener to handle currency selection
-            selectElement.addEventListener('change',  function(event) {
-                handleCurrencySelection(event, data)
-            });
-        }
+                var convertedValue = inputValue * currencyData[selectedCurrency];
 
-        // Function to handle currency selection
-        function handleCurrencySelection(event, currencyData) {
-            var selectedCurrency = event.target.value;
-            var inputValue = parseFloat(`${user.balance}`);
-            console.log(selectedCurrency);
-            console.log(inputValue);
-          <%--   var convertedValueInput = document.getElementById('convertedValue');
+                convertedValueInput.value = convertedValue.toFixed(2); // Displaying value up to 2 decimal places
+            }
 
-            var convertedValue = inputValue * currencyData[selectedCurrency];
-
-            convertedValueInput.value = convertedValue.toFixed(2); // Displaying value up to 2 decimal places --%>
-        }
-
-        // Display currency options when the page loads
-        
-
+            // Display currency options when the page loads
 
             function toggleOptions() {
                 var withdrawType = document.getElementById("withdrawTypeSelect").value;
@@ -454,7 +565,6 @@
 
             function confirmDelete() {
                 var word = prompt("Type word 'delete' to delete history");
-
                 if (word === 'delete') {
                     return true;
                 } else {
@@ -465,7 +575,7 @@
             function validateInput(formName) {
                 var depositValue = document.getElementById('depositAmount');
                 var withdrawValue = document.getElementById('withdrawAmount');
-
+                var exchangeValue = document.getElementById('convertedValue');
                 <%-- var Value = document.getElementById('depositAmount'); --%>
                 if (formName === 'Deposit' && depositValue.value.trim() === "") {
                     alert("Please enter a value.");
@@ -475,10 +585,12 @@
                     alert("Please enter a value.");
                     return false; // Prevent form submission
                 }
-                <%-- if (formName === "Exchange" ) --%>
+                if (formName === 'Exchange' && exchangeValue.value.trim() === "") {
+                    alert("Converted field is empty or data has not fetched yet");
+                    return false; // Prevent form submission
+                }
                 return true;
             }
-
         </script>
     </body>
 </html>

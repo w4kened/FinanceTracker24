@@ -78,7 +78,6 @@ public class UserController {
     @RequestMapping(value = "/home", method = RequestMethod.GET)
     public String getHomePage(Model model) {
         String email = SecurityUtil.getSessionUser();
-        System.out.println("email " + email);
         UserEntity user = userService.findByUsername(email);
         model.addAttribute("user", user);
         model.addAttribute("currencyDTO", new CurrencyDTO());

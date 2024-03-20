@@ -28,7 +28,8 @@ public class TransactionController {
         if (amount.compareTo(BigDecimal.ZERO) > 0) {
             String email = SecurityUtil.getSessionUser();
             UserEntity userEntity = userService.findByUsername(email);
-            transactionService.depositMoneyForUser(userEntity, amount);
+
+            transactionService.depositMoneyForUser(userEntity, amount, userEntity.getCurrency());
         }
         return "redirect:/home"; // Redirect to the dashboard page or any other appropriate page
     }
@@ -38,7 +39,18 @@ public class TransactionController {
         if (amount.compareTo(BigDecimal.ZERO) > 0) {
             String email = SecurityUtil.getSessionUser();
             UserEntity userEntity = userService.findByUsername(email);
-            transactionService.withdrawMoneyForUser(userEntity, amount);
+            transactionService.withdrawMoneyForUser(userEntity, amount, userEntity.getCurrency());
+        }
+        return "redirect:/home";
+    }
+
+    @RequestMapping(value = "/exchangeMoney", method = RequestMethod.POST)
+    public String exchangeMoney(@RequestParam("amount") BigDecimal amount,
+                                @RequestParam("currencySelect") String newCurrencyName) {
+        if (amount.compareTo(BigDecimal.ZERO) > 0) {
+            String email = SecurityUtil.getSessionUser();
+            UserEntity userEntity = userService.findByUsername(email);
+            transactionService.exchangeMoneyForUser(userEntity, amount, newCurrencyName);
         }
         return "redirect:/home";
     }
