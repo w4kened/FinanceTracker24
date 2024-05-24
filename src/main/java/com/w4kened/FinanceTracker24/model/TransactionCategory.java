@@ -12,6 +12,5 @@ public enum TransactionCategory {
     WITHDRAW("Withdraw"),
     SPENDING("Spending"),
     EXCHANGE("Exchange");
-
     private final String label;
 }

@@ -1,8 +1,8 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
-
 <c:set var="contextPath" value="${pageContext.request.contextPath}"/>
+
 
 <!DOCTYPE html>
     <head>
@@ -99,8 +99,9 @@
         </style>
     </head>
     <body  class="background-pattern">
+
         <div class="header" style="display: flex;">                   
-            <p class="fs-4">Dashboard</p>
+            <a href="${contextPath}/home"><p class="fs-4">Dashboard</p></a>
             <p class="fs-6"><a href="${contextPath}/logout">Logout</a></p>
         </div> 
         <div class="container">
@@ -159,6 +160,12 @@
                         Currency Converter
                         </p>
                     </button>
+    <c:if test="${not empty param.withdrawErr}">
+        <div class="text-danger" >${param.withdrawErr}</div>
+    </c:if>
+
+
+
                 </div>
             </div>
         </div>

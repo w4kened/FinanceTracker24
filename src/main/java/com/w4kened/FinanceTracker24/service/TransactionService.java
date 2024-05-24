@@ -43,6 +43,9 @@ public class TransactionService {
     }
 
     public void withdrawMoneyForUser(UserEntity userEntity, BigDecimal amount, String nameCurrency) {
+
+
+
         TransactionEntity newTransaction = TransactionEntity.builder()
                 .amount(amount)
                 .currency(nameCurrency)

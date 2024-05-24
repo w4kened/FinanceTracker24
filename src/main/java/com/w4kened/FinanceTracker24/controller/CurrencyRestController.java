@@ -17,6 +17,7 @@ import java.time.Duration;
 import java.util.Collections;
 import java.util.Map;
 import java.util.TreeMap;
+import java.util.Set;
 
 @RestController
 @RequiredArgsConstructor
@@ -46,10 +47,10 @@ public class CurrencyRestController {
     }
     private static Map<String, Double> fetchDataFromAPI(String inputBaseCurrencyName) {
         /*
-        Warning: current API service offer 5000 API calls per month/~166 API calls per day
+        Warning: current API service offers 5000 API calls per month/~166 API calls per day
         */
         String apiUrlPrefix = "https://api.currencybeacon.com/v1/latest";
-        String apiKey = ""; //enter your personal api key here
+        String apiKey = "";
         String symbols = "";
         switch (inputBaseCurrencyName) {
             case "PLN" -> symbols = "USD,EUR,UAH";
@@ -62,7 +63,7 @@ public class CurrencyRestController {
         RestTemplate restTemplate = new RestTemplate();
         ResponseEntity<String> response = restTemplate.getForEntity(url, String.class);
 
-        ObjectMapper mapper = new ObjectMapper(); // Assuming you're using Jackson
+        ObjectMapper mapper = new ObjectMapper();
         Map<Object, Object> mapContainer;
         try {
             mapContainer = mapper.readValue(response.getBody(), Map.class);
