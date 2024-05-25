@@ -50,7 +50,7 @@ public class CurrencyRestController {
         Warning: current API service offers 5000 API calls per month/~166 API calls per day
         */
         String apiUrlPrefix = "https://api.currencybeacon.com/v1/latest";
-        String apiKey = "";
+        String apiKey = "KyTUJ1YsU8PAxpyZQBW4k4vKkSoxnrQZ";
         String symbols = "";
         switch (inputBaseCurrencyName) {
             case "PLN" -> symbols = "USD,EUR,UAH";
