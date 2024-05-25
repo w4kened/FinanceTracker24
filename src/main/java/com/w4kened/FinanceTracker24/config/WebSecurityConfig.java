@@ -36,6 +36,8 @@ public class WebSecurityConfig {
                 .requestMatchers(new AntPathRequestMatcher("/resources/**")).permitAll()
                 .requestMatchers("/login", "/registration").permitAll()
                 .requestMatchers("/home").authenticated()
+                .requestMatchers("/depositMoney").authenticated()
+                .requestMatchers("/withdrawMoney").authenticated()
                 .requestMatchers("/api/**").authenticated()
                 .and()
                 .formLogin(formLogin -> formLogin

@@ -9,5 +9,5 @@ import java.util.List;
 
 public interface TransactionRepository extends JpaRepository<TransactionEntity, Long> {
     @Query(value = "select * from transaction_table where user_id = ?1 order by created_date desc;", nativeQuery = true)
-    List<TransactionEntity> findAllTransactionsAscOrderByUserId(Long id);
+    List<TransactionEntity> findAllTransactionsByUserId(Long id);
 }

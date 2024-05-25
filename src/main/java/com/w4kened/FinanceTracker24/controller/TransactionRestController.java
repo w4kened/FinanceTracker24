@@ -35,6 +35,6 @@ public class TransactionRestController {
     public List<TransactionEntity> getTransactionHistory() {
         String email = SecurityUtil.getSessionUser();
         UserEntity userEntity = userService.findByUsername(email);
-        return transactionRepository.findAllTransactionsAscOrderByUserId(userEntity.getId());
+        return transactionRepository.findAllTransactionsByUserId(userEntity.getId());
     }
 }
